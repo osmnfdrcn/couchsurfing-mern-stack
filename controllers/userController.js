@@ -54,6 +54,7 @@ const getUsers = async (req, res) => {
     const allUsers = await User.find(match, {
         email: 0,
         __v: 0,
+        avatar: 0
     })
     const users = await User.find(match, {
         email: 0,
@@ -84,7 +85,7 @@ const me = async (req, res) => {
 const updateAvatar = async (req, res) => {
     const buffer = await sharp(req.file.buffer)
         .resize({ width: 500, height: 500 })
-        .png()
+        .png({ quality: 60 })
         .toBuffer()
     req.user.avatar = buffer
     req.user.save()

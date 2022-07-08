@@ -167,6 +167,26 @@ ul {
   outline: none;
 }
 
+/* spinner */
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  width: 6rem;
+  height: 6rem;
+  border: 5px solid var(--grey-400);
+  border-radius: 50%;
+  border-top-color: #ff4f00;
+  animation: spinner 2s linear infinite;
+}
+
+.loading-center {
+  margin: 20% auto;
+}
+
 
 /* alerts */
 .alert {
@@ -191,9 +211,7 @@ ul {
 button{
   cursor: pointer;
 }
-button:disabled {
-  background: var(--grey-400);
-}
+
 .btn {
   cursor: pointer;
   color: var(--white);
@@ -212,6 +230,7 @@ button:disabled {
   background: var(--primary-700);
   box-shadow: var(--shadow-3);
 }
+
 
 .member-btn {
   background-color: transparent;

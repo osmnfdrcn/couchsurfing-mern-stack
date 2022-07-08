@@ -10,7 +10,7 @@ const User = (user) => {
       <Wrapper>
         <div className="user">
           <div className="user-avatar">
-            <img src={`data:image/gif;base64,${avatar}`} alt="avatar" />
+            <img src={`data:image/png;base64,${avatar}`} alt="avatar" />
           </div>
           <div className="user-info">
             <span>{name}  |  {city} </span>

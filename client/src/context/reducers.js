@@ -7,6 +7,7 @@ import {
     LOGOUT_USER,
     UPDATE_USER_SUCCESS,
     UPDATE_USER_ERROR,
+    GET_USERS_BEGIN,
     GET_USERS_SUCCESS,
     UPDATE_PASSWORD_SUCCESS,
     UPDATE_PASSWORD_ERROR,
@@ -15,6 +16,7 @@ import {
     INCREASE_SKIP,
     DECREASE_SKIP,
     RESET_SKIP,
+    GET_SINGLE_USER_BEGIN,
     GET_SINGLE_USER_SUCCESS,
     GET_COMMENTS_SUCCESS,
     CREATE_REQUEST_SUCCESS,
@@ -145,20 +147,33 @@ const reducer = (state, action) => {
             alertText: action.payload.msg,
         }
     }
-
+    if (action.type === GET_SINGLE_USER_BEGIN) {
+        return {
+            ...state,
+            singleUser: {},
+            isLoading: true
+        }
+    }
     if (action.type === GET_SINGLE_USER_SUCCESS) {
         return {
             ...state,
             singleUser: action.payload.data,
+            isLoading: false
         }
     }
     // Hata alirsak ne yapacagiz ki?
     // if (action.type === GET_SINGLE_USER_ERROR) {
     // }
-
+    if (action.type === GET_USERS_BEGIN) {
+        return {
+            ...state,
+            isLoading: true
+        }
+    }
     if (action.type === GET_USERS_SUCCESS) {
         return {
             ...state,
+            isLoading: false,
             users: action.payload.users,
             totalUsers: action.payload.totalUsers,
             numOfPages: action.payload.numOfPages,

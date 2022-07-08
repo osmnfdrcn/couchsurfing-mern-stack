@@ -5,9 +5,10 @@ import { useEffect, useState } from "react"
 import SingleComment from "./SinngleComment"
 import DataField from "./DataField"
 import RequestForm from "./RequestForm"
+import Loading from '../components/Loading'
 
 const SingleUser = () => {
-  const { getSingleUSer, singleUser, getComments, createComment, comments, showRequestComponent, showRequestForm } = useAppContext()
+  const { getSingleUSer, singleUser, getComments, createComment, comments, showRequestComponent, showRequestForm, isLoading } = useAppContext()
   const { id } = useParams()
   const [showInfo, setShowInfo] = useState(false)
   const [showHosting, setShowHosting] = useState(false)
@@ -15,7 +16,7 @@ const SingleUser = () => {
   const [comment, setComment] = useState('')
 
 
-  const { name, age, hosting, country, city, rules, countriesVisited } = singleUser
+  const { name, age, hosting, country, city, rules, countriesVisited, avatar } = singleUser
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -29,12 +30,15 @@ const SingleUser = () => {
     // eslint-disable-next-line
   }, [])
 
-
+  if (isLoading) {
+    return <Loading center />
+  }
   return (
     <Wrapper>
+
       <div className="common-layout user-layout">
         <div className="user-avatar">
-          <img src={`data:image/gif;base64,${singleUser?.avatar}`} alt="avatar" />
+          <img src={`data:image/png;base64,${avatar}`} alt="avatar" />
           <span
             onClick={showRequestComponent}
             className="request-btn">Make a Request</span>
@@ -119,9 +123,8 @@ const SingleUser = () => {
               {
                 comments?.map((comment, i) => {
                   return (
-                    <div className="single-comment">
+                    <div className="single-comment" key={i}>
                       <SingleComment
-                        key={i}
                         id={comment?._id}
                         from={comment?.from}
                         createdAt={comment?.createdAt}

@@ -8,7 +8,6 @@ const Wrapper = styled.div`
     justify-content: center;
     gap: 40px;
     width: 100%;
-
     .search-container{
       min-width: 500px;
       height: 70px;
@@ -67,12 +66,14 @@ const Wrapper = styled.div`
    .pagination button {
      font-size: 12px;
      color: white;
-    background: transparent;
+     background: transparent;
      padding: 10px 20px;
      border: none;
      cursor: pointer;
    }
-
+.pagination button:disabled {
+     cursor: not-allowed;
+   }
   .pagination span{
     font-size: 16px;
   }

@@ -1,6 +1,7 @@
 import { useAppContext } from "../context/appContext";
 import { useEffect, useState } from "react";
 import Alert from "./Alert";
+import axios from "axios";
 
 const ProfileAvatar = ({ setShowGeneralInfo, setShowHostingInfo, setShowAvatar }) => {
   const { user, updateAvatar, displayAlert, showAlert } = useAppContext();
@@ -40,11 +41,12 @@ const ProfileAvatar = ({ setShowGeneralInfo, setShowHostingInfo, setShowAvatar }
     return () => URL.revokeObjectURL(objectUrl)
   }, [photo])
 
+
   return (
     <div className="avatar-update">
       <div className="avatar">
         {/* FIX THIS */}
-        {!photo && <img src={`http://localhost:5000/api/v1/users/${user._id}/avatar`} alt="avatar" />}
+        {!photo && <img src={`/api/v1/users/${user._id}/avatar`} alt="avatar" />}
         {photo && <img src={preview} />}
       </div>
       <form onSubmit={handleSubmit} encType='multipart/form-data'>

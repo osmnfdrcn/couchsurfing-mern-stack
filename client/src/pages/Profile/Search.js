@@ -2,6 +2,7 @@ import Wrapper from "../../assets/wrappers/Search"
 import User from "../../components/User"
 import { useAppContext } from "../../context/appContext";
 import { useEffect, useState } from 'react'
+import Loading from '../../components/Loading'
 
 const Search = () => {
     const {
@@ -12,7 +13,8 @@ const Search = () => {
         users,
         numOfPages,
         page,
-        skip
+        skip,
+        isLoading
     } = useAppContext()
 
     const [values, setValues] = useState({});
@@ -37,7 +39,7 @@ const Search = () => {
     // eslint-disable-next-line
     const style = page > 1 ? 'pagination-btn' : 'disabled-btn pagination-btn'
 
-    //LOading... 
+
 
     return (
         <Wrapper>
@@ -49,37 +51,38 @@ const Search = () => {
                     <input onChange={handleChange} name="nights" type='number' placeholder="nights" />
                 </form>
             </div>
-            {/* <span> {totalUsers} {numOfPages}</span> */}
+
             {
-                users?.length === 0 && <h2>No users to display...</h2>
-
+                isLoading
+                    ? <Loading center />
+                    : (
+                        <div className='user-container'>
+                            {
+                                users?.map((user, id) => {
+                                    return (
+                                        <User
+                                            key={id}
+                                            name={user?.name.toLowerCase()}
+                                            city={user?.city}
+                                            avatar={user?.avatar}
+                                            id={user?._id}
+                                        />
+                                    )
+                                })
+                            }
+                        </div>
+                    )
             }
-            <div className='user-container'>
-                {
-                    users?.map((user, id) => {
-                        return (
-                            <User
-                                key={id}
-                                name={user?.name.toLowerCase()}
-                                city={user?.city}
-                                avatar={user?.avatar}
-                                id={user?._id}
-                            />
-                        )
-                    })
-                }
 
-
-            </div>
             <div className="pagination">
                 <button
-                    classsname={page > 1 ? 'pagination-btn' : 'disabled-btn pagination-btn'}
+                    classsname='btn-disabled pagination-btn'
                     onClick={decreaseSkip}
-                    disabled={page <= 1}
+                    disabled={page === 1}
                 >Previous</button>
                 <span>{page}/{numOfPages}</span>
                 <button
-                    classsname={page === numOfPages ? 'disabled-btn pagination-btn' : ' pagination-btn'}
+                    classsname='btn pagination-btn'
                     onClick={increaseSkip}
                     disabled={page >= numOfPages}
                 >Next</button>

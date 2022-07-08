@@ -13,10 +13,12 @@ import {
     UPDATE_PASSWORD_ERROR,
     UPDATE_AVATAR_SUCCESS,
     UPDATE_AVATAR_ERROR,
+    GET_USERS_BEGIN,
     GET_USERS_SUCCESS,
     INCREASE_SKIP,
     DECREASE_SKIP,
     RESET_SKIP,
+    GET_SINGLE_USER_BEGIN,
     GET_SINGLE_USER_SUCCESS,
     GET_COMMENTS_SUCCESS,
     CREATE_REQUEST_SUCCESS,
@@ -41,6 +43,7 @@ const initialState = {
     showAlert: false,
     alertText: '',
     alertType: '',
+    isLoading: false,
     user: user ? JSON.parse(user) : null,
     token: token ? token : null,
     comments: [],
@@ -210,6 +213,10 @@ const AppProvider = ({ children }) => {
         }
     }
 
+    const getAvatar = async () => {
+        const avatar = await authFetch(`/api/v1/users/${user._id}/avatar`)
+    }
+
     const increaseSkip = () => {
         dispatch({ type: INCREASE_SKIP })
     }
@@ -222,6 +229,7 @@ const AppProvider = ({ children }) => {
 
     const getSingleUSer = async (id) => {
         let url = `/users/profile?id=${id}`
+        dispatch({ type: GET_SINGLE_USER_BEGIN })
         try {
             const { data } = await authFetch(url)
             dispatch({
@@ -267,6 +275,8 @@ const AppProvider = ({ children }) => {
     }
 
     const getUsers = async (values) => {
+
+        dispatch({ type: GET_USERS_BEGIN })
         const updates = Object.keys(values)
 
         let url = `/users?limit=10&skip=${state.skip}`
